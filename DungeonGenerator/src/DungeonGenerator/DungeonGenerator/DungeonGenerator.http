@@ -1,6 +1,11 @@
 @DungeonGenerator_HostAddress = http://localhost:5126
 
-GET {{DungeonGenerator_HostAddress}}/weatherforecast/
+GET {{DungeonGenerator_HostAddress}}/health/
+
+###
+ 
+GET {{DungeonGenerator_HostAddress}}/example/
+
 Accept: application/json
 
 ###
