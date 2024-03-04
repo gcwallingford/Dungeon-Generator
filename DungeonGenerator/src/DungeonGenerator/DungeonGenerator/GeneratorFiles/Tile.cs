@@ -1,11 +1,10 @@
 namespace DungeonGenerator;
 
-public class Tile
+public class Tile(TileType tileType = TileType.Empty)
 {
-    private static TileType _type;
-    public static TileType Type
+    public TileType Type
     {
-        get => _type;
-        set => _type = value;
+        get => tileType;
+        set => tileType = value;
     }
 }

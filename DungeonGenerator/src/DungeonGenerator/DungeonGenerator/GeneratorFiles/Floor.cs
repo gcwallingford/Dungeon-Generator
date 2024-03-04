@@ -10,14 +10,14 @@ public class Floor(int height, int width)
 
    public void SetEmptyTiles()
    {
-       int rows = Tiles.GetLength(0);
-       int columns = Tiles.GetLength(1);
+       int numberOfRows = Tiles.GetLength(0);
+       int numberOfColumns = Tiles.GetLength(1);
 
-       for (int i = 0; i < rows; i++)
+       for (int row = 0; row < numberOfRows; row++)
        {
-           for (int j = 0; j < columns; j++)
+           for (int column = 0; column < numberOfColumns; column++)
            {
-               Tile.Type = TileType.Empty;
+               _floorTiles[row, column] = new Tile();
            }
        }
    }

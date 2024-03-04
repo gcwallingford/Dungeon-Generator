@@ -5,7 +5,7 @@ public class Dungeon(int numberOfFloors)
     private Floor[] _floors = new Floor[numberOfFloors];
     public Floor[] Floors => _floors;
 
-    public void MakeFloors()
+    public void InitializeFloors()
     {
         for (int i = 0; i < numberOfFloors; i++)
         {
