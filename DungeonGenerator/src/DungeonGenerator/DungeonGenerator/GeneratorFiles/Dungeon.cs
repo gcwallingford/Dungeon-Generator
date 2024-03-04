@@ -2,16 +2,15 @@ namespace DungeonGenerator;
 
 public class Dungeon(int numberOfFloors)
 {
-    private int _numberOfFloors = numberOfFloors;
-    public int Floors = numberOfFloors;
     private Floor[] _floors = new Floor[numberOfFloors];
+    public Floor[] Floors => _floors;
 
-    private void MakeFloors()
+    public void MakeFloors()
     {
         for (int i = 0; i < numberOfFloors; i++)
         {
             Floor floor = new(20, 20);
-            floor.setEmptyTiles();
+            floor.SetEmptyTiles();
             _floors[i] = floor;
         }
     }
