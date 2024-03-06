@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using System.IO;
+using DungeonGenerator;
 using SkiaSharp;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -50,6 +51,40 @@ app.MapGet("/greendots", () =>
     }
 
 });
+
+app.MapGet("/CaveGenerator", () =>  
+{
+    //Creating generator object
+    var generatedCave = new CaveGenerator();
+    
+    //Creating bitmap image object
+    using (var bitmap = new SKBitmap(20, 20))
+    {
+        //Finding information on rows & columns
+        int numberOfRows = generatedCave.Cave.Floors[0].Tiles.GetLength(0);
+        int numberOfColumns = generatedCave.Cave.Floors[0].Tiles.GetLength(1);
+        
+        //for each column in each row...
+        for (int row = 0; row < numberOfRows; row++)
+        {
+            for (int column = 0; column < numberOfColumns; column++)
+            {
+                if (generatedCave.Cave.Floors[0].Tiles[row, column].Type == TileType.Floor)
+                {
+                    bitmap.SetPixel(row, column, SKColors.Sienna);
+                }
+                else
+                {
+                    bitmap.SetPixel(row, column, SKColors.Black);
+                }
+            }
+        }
+        var data = SKImage.FromBitmap(bitmap).Encode(SKEncodedImageFormat.Png, 100);
+        var imageBytes = data.ToArray();
+        return Results.Bytes(imageBytes, "image/png", "image.png");
+    }
+    
+});                                                                
 
 app.MapGet("/example", (HttpContext context) =>
 {
