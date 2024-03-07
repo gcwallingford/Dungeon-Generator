@@ -21,63 +21,78 @@ public class CaveGenerator
         var columns = currentFloor.Tiles.GetLength(1);
         
         //sets start tile
-        var currentTile = SetStartTile(rows, columns, currentFloor);
-        int x = 10;
-        int y = 10;
+        (int x, int y) = SetStartTile(rows, columns, currentFloor);
+        
             
         //moves in random direction, sets tile to floor
         for (int i = 0; i < 100; i++)
         {
-            SetTileToFloor(MoveDirection(currentTile, currentFloor, x, y));
+            (cave.Floors[0], x, y) = ChooseDirection(currentFloor, x, y);
         }
         return cave;
     }
 
-    private Tile SetStartTile(int rows, int columns, Floor currentFloor)
+
+    private (int x, int y) SetStartTile(int rows, int columns, Floor currentFloor)
     {
         //selecting random tile
-        int randomRow = Random.Shared.Next(0, rows);
-        int randomColumn = Random.Shared.Next(0, columns);
+        int x = Random.Shared.Next(0, rows);
+        int y = Random.Shared.Next(0, columns);
         
-        //initial tile setup
-        int x = randomColumn;
-        int y = randomRow;
-        Tile startTile = currentFloor.Tiles[y, x];
-        startTile.Type = TileType.Start;
-        return startTile;
+        return (x, y);
     }
 
-    private Tile SetTileToFloor(Tile currentTile)
+    private Floor SetTileToFloor(Floor currentFloor, int x, int y)
     {
         //converting empty to floor tile
-        if (currentTile.Type == TileType.Empty)
+        if (currentFloor.Tiles[y, x].Type != TileType.Floor)
         {
-            currentTile.Type = TileType.Floor;
+            currentFloor.Tiles[y, x].Type = TileType.Floor;
         }
-        return currentTile;
+        return currentFloor;
     }
 
-    private Tile MoveDirection(Tile currentTile, Floor currentFloor, int x, int y)
+    private (Floor currentFloor, int x, int y) ChooseDirection(Floor currentFloor, int x, int y)
     {
         //choosing direction from start tile
-        int directionIndex = Random.Shared.Next(0, 3);
-        
-        //moving one tile in direction, records position of current tile
+        int directionIndex = Random.Shared.Next(0, 4);
+        Console.WriteLine(directionIndex);
+        //moving one tile in direction, sets tile to floor
         switch (directionIndex)
         {
             case 0:
-                currentTile = currentFloor.Tiles[y--, x];
+                SetTileToFloor(currentFloor, x, y--);
+                if (y < 0)
+                {
+                    y = 0;
+                }
                 break;
             case 1:
-                currentTile = currentFloor.Tiles[y++, x];
+                SetTileToFloor(currentFloor, x, y++);
+                if (y > 20)
+                {
+                    y = 20;
+                }
                 break;
             case 2:
-                currentTile = currentFloor.Tiles[y, x--];
+                SetTileToFloor(currentFloor, x--, y);
+                if (x < 0)
+                {
+                    x = 0;
+                }
                 break;
             case 3:
-                currentTile = currentFloor.Tiles[y, x++];
+                SetTileToFloor(currentFloor, x++, y);
+                if (x > 20)
+                {
+                    x = 20;
+                }
                 break;
         }
-        return currentTile;
+        
+        
+
+        
+        return (currentFloor, x, y);
     }
 }

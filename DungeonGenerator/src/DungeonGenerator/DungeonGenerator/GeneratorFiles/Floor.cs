@@ -18,6 +18,7 @@ public class Floor(int height, int width)
            for (int column = 0; column < numberOfColumns; column++)
            {
                _floorTiles[row, column] = new Tile();
+               _floorTiles[row, column].Type = TileType.Empty;
            }
        }
    }
