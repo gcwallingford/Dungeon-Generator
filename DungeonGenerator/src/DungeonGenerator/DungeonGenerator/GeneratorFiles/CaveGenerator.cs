@@ -27,13 +27,13 @@ public class CaveGenerator
         //moves in random direction, sets tile to floor
         for (int i = 0; i < 100; i++)
         {
-            (cave.Floors[0], x, y) = ChooseDirection(currentFloor, x, y);
+            (cave.Floors[0], x, y) = ChooseDirection(currentFloor, x, y, RandomDirection());
         }
         return cave;
     }
 
 
-    private (int x, int y) SetStartTile(int rows, int columns, Floor currentFloor)
+    public (int x, int y) SetStartTile(int rows, int columns, Floor currentFloor)
     {
         //selecting random tile
         int x = Random.Shared.Next(0, rows);
@@ -52,47 +52,49 @@ public class CaveGenerator
         return currentFloor;
     }
 
-    private (Floor currentFloor, int x, int y) ChooseDirection(Floor currentFloor, int x, int y)
+    private int RandomDirection()
     {
-        //choosing direction from start tile
         int directionIndex = Random.Shared.Next(0, 4);
-        Console.WriteLine(directionIndex);
-        //moving one tile in direction, sets tile to floor
+        return directionIndex;
+    }
+
+    public (Floor currentFloor, int x, int y) ChooseDirection(Floor currentFloor, int x, int y, int directionIndex)
+    {
         switch (directionIndex)
         {
             case 0:
-                SetTileToFloor(currentFloor, x, y--);
-                if (y < 0)
+                if (y <= 1)
                 {
-                    y = 0;
+                    y = 1;
                 }
+                SetTileToFloor(currentFloor, x, y--);
+                
                 break;
             case 1:
-                SetTileToFloor(currentFloor, x, y++);
-                if (y > 20)
+                if (y >= 18)
                 {
-                    y = 20;
+                    y = 18;
                 }
+                SetTileToFloor(currentFloor, x, y++);
+                
                 break;
             case 2:
-                SetTileToFloor(currentFloor, x--, y);
-                if (x < 0)
+                if (x <= 1)
                 {
-                    x = 0;
+                    x = 1;
                 }
+                SetTileToFloor(currentFloor, x--, y);
+                
                 break;
             case 3:
-                SetTileToFloor(currentFloor, x++, y);
-                if (x > 20)
+                if (x >= 18)
                 {
-                    x = 20;
+                    x = 18;
                 }
+                SetTileToFloor(currentFloor, x++, y);
+                
                 break;
         }
-        
-        
-
-        
         return (currentFloor, x, y);
     }
 }

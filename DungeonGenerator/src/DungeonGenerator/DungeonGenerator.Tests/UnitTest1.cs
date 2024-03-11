@@ -14,10 +14,46 @@ public class UnitTest1
     }
 
     [Fact]
+    public void TestUpLimit()
+    {
+        CaveGenerator generator = new CaveGenerator();
+        var currentFloor = new Floor(20, 20);
+        currentFloor.SetEmptyTiles();
+
+        var (_, _, y) = generator.ChooseDirection(currentFloor, 0, 0, 0);
+        Assert.Equal(0,y);
+    }
+    
+    [Fact]
+    public void TestDownLimit()
+    {
+        CaveGenerator generator = new CaveGenerator();
+        var currentFloor = new Floor(20, 20);
+        currentFloor.SetEmptyTiles();
+
+        var (_, _, y) = generator.ChooseDirection(currentFloor, 0, 19, 1);
+        Assert.Equal(19,y);
+    }
+    
+    [Fact]
     public void TestLeftLimit()
     {
-        Dungeon dungeon = new Dungeon(1);
-        dungeon.InitializeFloors();
-        
+        CaveGenerator generator = new CaveGenerator();
+        var currentFloor = new Floor(20, 20);
+        currentFloor.SetEmptyTiles();
+
+        var (_, x, _) = generator.ChooseDirection(currentFloor, 0, 0, 2);
+        Assert.Equal(0,x);
+    }
+    
+    [Fact]
+    public void TestRightLimit()
+    {
+        CaveGenerator generator = new CaveGenerator();
+        var currentFloor = new Floor(20, 20);
+        currentFloor.SetEmptyTiles();
+
+        var (_, x, _) = generator.ChooseDirection(currentFloor, 19, 0, 0);
+        Assert.Equal(19,x);
     }
 }
