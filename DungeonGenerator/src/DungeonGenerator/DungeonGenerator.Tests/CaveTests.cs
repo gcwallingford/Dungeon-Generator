@@ -1,6 +1,6 @@
 namespace DungeonGenerator.Tests;
 
-public class UnitTest1
+public class CaveTests
 {
     [Fact]
     public void TestEmptyFloor()
