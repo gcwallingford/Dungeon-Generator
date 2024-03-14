@@ -19,28 +19,5 @@ public class BuildingGenerator
 
         return building;
     }
-
-    public void MakeRoom(Tile[,] inputArray)
-    {
-        var numRows = inputArray.GetLength(0);
-        var numColumns = inputArray.GetLength(1);
-        for (int i = 0; i < numRows; i++)
-        {
-            for (int j = 0; j < numColumns; j++)
-            {
-                if (i == 0 || i == numRows - 1)
-                {
-                    inputArray[i, j].Type = TileType.Wall;
-                }
-                else if (j == 0 || j == numColumns - 1)
-                {
-                    inputArray[i, j].Type = TileType.Wall;
-                }
-                else
-                {
-                    inputArray[i, j].Type = TileType.Floor;
-                }
-            }
-        }
-    }
+    
 }
