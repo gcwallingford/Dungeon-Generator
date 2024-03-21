@@ -40,7 +40,7 @@ public class BuildingTests
     [Fact]
     public void TestMakeRoom()
     {
-        BuildingGenerator generator = new BuildingGenerator();
+        BuildingGenerator generator = new BuildingGenerator(1);
         var currentFloor = new Floor(20, 20);
         currentFloor.SetEmptyTiles();
         var wallTile1 = currentFloor.Tiles[2, 2];

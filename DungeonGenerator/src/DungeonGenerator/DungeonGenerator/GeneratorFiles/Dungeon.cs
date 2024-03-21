@@ -43,19 +43,22 @@ public class Dungeon(int numberOfFloors)
 
     public Floor MakeRoomInFloor(Floor inputFloor, int roomHeight, int roomWidth, int startingFloorColumn, int startingFloorRow)
     {
-        //int column = startingFloorColumn;
-        //int row = startingFloorRow;
-        for (int column = startingFloorColumn; column < (startingFloorColumn + roomWidth); column++)
+        if (inputFloor.Tiles[startingFloorRow,startingFloorColumn].Type == TileType.Wall || inputFloor.Tiles[startingFloorRow,startingFloorColumn].Type == TileType.Floor)
         {
-            // if (column == startingFloorColumn || column == startingFloorColumn + roomWidth - 1)
-            // {
-            //     inputFloor.Tiles[row, column].Type = TileType.Wall;
-            // }
-            // else
-            // {
+            int randomHeight = Random.Shared.Next(1, 6);
+            int randomWidth = Random.Shared.Next(1, 6);
+            int randomColumn = Random.Shared.Next(1, 19);
+            int randomRow = Random.Shared.Next(1, 19);
+            MakeRoomInFloor(inputFloor, randomHeight, randomWidth, randomColumn, randomRow);
+        }
+        else
+        {
+            for (int column = startingFloorColumn; column < (startingFloorColumn + roomWidth); column++)
+            {
+            
                 for (int row = startingFloorRow; row < (startingFloorRow + roomHeight); row++)
                 {
-                   if (column == startingFloorColumn || column == startingFloorColumn + roomWidth - 1)
+                    if (column == startingFloorColumn || column == startingFloorColumn + roomWidth - 1)
                     {
                         inputFloor.Tiles[row, column].Type = TileType.Wall;
                     }
@@ -71,8 +74,9 @@ public class Dungeon(int numberOfFloors)
                         }
                     }
                 }
-            //}
+            }
         }
+        
 
         return inputFloor;
     }
