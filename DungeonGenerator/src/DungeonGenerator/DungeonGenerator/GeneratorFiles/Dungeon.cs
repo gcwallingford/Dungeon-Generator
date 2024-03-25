@@ -1,6 +1,4 @@
-using System.Drawing;
-
-namespace DungeonGenerator;
+namespace DungeonGenerator.GeneratorFiles;
 
 public class Dungeon(int numberOfFloors)
 {
@@ -48,6 +46,7 @@ public class Dungeon(int numberOfFloors)
             int randomHeight = Random.Shared.Next(1, 6);
             int randomWidth = Random.Shared.Next(1, 6);
             int randomColumn = Random.Shared.Next(1, 19);
+             
             int randomRow = Random.Shared.Next(1, 19);
             MakeRoomInFloor(inputFloor, randomHeight, randomWidth, randomColumn, randomRow);
         }
@@ -76,8 +75,40 @@ public class Dungeon(int numberOfFloors)
                 }
             }
         }
+        return inputFloor;
+    }
+    
+    public Floor GenerateFloorHallway(Floor inputFloor, int inputWidth, int inputHeight)
+    {
+        int directionInput = Random.Shared.Next(0,4);
+        if (inputFloor.Tiles[inputWidth,inputHeight].Type == TileType.Empty)
+        {
+            inputFloor.Tiles[inputWidth, inputHeight].Type = TileType.Floor;
+            switch (directionInput)
+            {
+                //up
+                case 0:
+                    inputHeight--;
+                    GenerateFloorHallway(inputFloor, inputWidth, inputHeight);
+                    break;
+                //down
+                case 1:
+                    inputHeight++;
+                    GenerateFloorHallway(inputFloor, inputWidth, inputHeight);
+                    break;
+                //left
+                case 2:
+                    inputWidth--;
+                    GenerateFloorHallway(inputFloor, inputWidth, inputHeight);
+                    break;
+                //right
+                case 3:
+                    inputWidth++;
+                    GenerateFloorHallway(inputFloor, inputWidth, inputHeight);
+                    break;
+            }
+        }
         
-
         return inputFloor;
     }
 }

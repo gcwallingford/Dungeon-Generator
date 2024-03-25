@@ -1,3 +1,5 @@
+using DungeonGenerator.GeneratorFiles;
+
 namespace DungeonGenerator;
 
 public class CaveGenerator

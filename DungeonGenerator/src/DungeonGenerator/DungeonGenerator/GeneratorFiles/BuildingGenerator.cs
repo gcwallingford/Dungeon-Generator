@@ -1,3 +1,5 @@
+using DungeonGenerator.GeneratorFiles;
+
 namespace DungeonGenerator;
 
 public class BuildingGenerator
@@ -14,7 +16,7 @@ public class BuildingGenerator
 
         for (int i = 0; i < numberOfRooms; i++)
         {
-            building.MakeRoomInFloor(building.Floors[0], randomHeight, randomWidth, randomColumn, randomRow);
+            building.Floors[0] = building.MakeRoomInFloor(building.Floors[0], randomHeight, randomWidth, randomColumn, randomRow);
         }
         
     }
