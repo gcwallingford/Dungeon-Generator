@@ -52,6 +52,39 @@ app.MapGet("/greendots", () =>
 
 });
 
+app.MapGet("/BuildingGenerator", () =>
+{
+    var generatedBuilding = new BuildingGenerator(2);
+    using (var bitmap = new SKBitmap(20, 20))
+    {
+        int numberOfRows = generatedBuilding.building.Floors[0].Tiles.GetLength(0);
+        int numberOfColumns = generatedBuilding.building.Floors[0].Tiles.GetLength(1);
+
+        for (int row = 0; row < numberOfRows; row++)
+        {
+            for (int column = 0; column < numberOfColumns; column++)
+            {
+                if (generatedBuilding.building.Floors[0].Tiles[row, column].Type == TileType.Floor)
+                {
+                    bitmap.SetPixel(row, column, SKColors.Sienna);
+                }
+                else if (generatedBuilding.building.Floors[0].Tiles[row, column].Type == TileType.Wall)
+                {
+                    bitmap.SetPixel(row, column, SKColors.Gray);
+                }
+                else
+                {
+                    bitmap.SetPixel(row, column, SKColors.Black);
+                }
+            }
+        }
+
+        var data = SKImage.FromBitmap(bitmap).Encode(SKEncodedImageFormat.Png, 100);
+        var imageBytes = data.ToArray();
+        return Results.Bytes(imageBytes, "image/png", "image.png");
+    }
+});
+
 app.MapGet("/CaveGenerator", () =>  
 {
     //Creating generator object

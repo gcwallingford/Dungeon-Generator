@@ -41,13 +41,16 @@ public class Dungeon(int numberOfFloors)
 
     public Floor MakeRoomInFloor(Floor inputFloor, int roomHeight, int roomWidth, int startingFloorColumn, int startingFloorRow)
     {
-        if (inputFloor.Tiles[startingFloorRow,startingFloorColumn].Type == TileType.Wall || inputFloor.Tiles[startingFloorRow,startingFloorColumn].Type == TileType.Floor)
+        if (inputFloor.Tiles[startingFloorRow,startingFloorColumn].Type == TileType.Wall
+            || inputFloor.Tiles[startingFloorRow,startingFloorColumn].Type == TileType.Floor
+            || inputFloor.Tiles[startingFloorRow + roomHeight,startingFloorColumn + roomWidth].Type == TileType.Wall 
+            || inputFloor.Tiles[startingFloorRow + roomHeight,startingFloorColumn + roomWidth].Type == TileType.Floor)
         {
             int randomHeight = Random.Shared.Next(1, 6);
             int randomWidth = Random.Shared.Next(1, 6);
-            int randomColumn = Random.Shared.Next(1, 19);
-             
-            int randomRow = Random.Shared.Next(1, 19);
+            int randomColumn = Random.Shared.Next(1, 19 - randomHeight);
+            int randomRow = Random.Shared.Next(1, 19 - randomWidth);
+            
             MakeRoomInFloor(inputFloor, randomHeight, randomWidth, randomColumn, randomRow);
         }
         else
