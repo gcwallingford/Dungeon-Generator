@@ -52,6 +52,37 @@ app.MapGet("/greendots", () =>
 
 });
 
+app.MapGet("/hallwayendpoint", () =>
+{
+    var buildingGen = new BuildingGenerator(2);
+    
+    int numberOfRows = buildingGen.building.Floors[0].Tiles.GetLength(0);
+    int numberOfColumns = buildingGen.building.Floors[0].Tiles.GetLength(1);
+    
+    using (var bitmap = new SKBitmap(20, 20))
+    {
+        buildingGen.building.GenerateFloorHallway(buildingGen.building.Floors[0], 10, 10);
+        for (int row = 0; row < numberOfRows; row++)
+        {
+            for (int column = 0; column < numberOfColumns; column++)
+            {
+                if (buildingGen.building.Floors[0].Tiles[row, column].Type == TileType.Floor)
+                {
+                    bitmap.SetPixel(row, column, SKColors.Sienna);
+                }
+                else if (buildingGen.building.Floors[0].Tiles[row, column].Type == TileType.Wall)
+                {
+                    bitmap.SetPixel(row, column, SKColors.Gray);
+                }
+                else
+                {
+                    bitmap.SetPixel(row, column, SKColors.Black);
+                }
+            }
+        }
+    }
+});
+
 app.MapGet("/BuildingGenerator", () =>
 {
     var generatedBuilding = new BuildingGenerator(2);
