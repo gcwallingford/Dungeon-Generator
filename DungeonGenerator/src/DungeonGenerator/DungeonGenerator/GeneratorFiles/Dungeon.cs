@@ -81,37 +81,59 @@ public class Dungeon(int numberOfFloors)
         return inputFloor;
     }
     
-    public Floor GenerateFloorHallway(Floor inputFloor, int inputWidth, int inputHeight)
+    public Floor GenerateFloorMaze(Floor inputFloor, int inputWidth, int inputHeight)
     {
-        int directionInput = Random.Shared.Next(0,4);
-        if (inputFloor.Tiles[inputWidth,inputHeight].Type == TileType.Empty)
+        InitializeMaze(inputFloor, inputWidth, inputHeight);
+        int X = Random.Shared.Next(inputFloor.Tiles.GetLength(0));
+        int Y = Random.Shared.Next(inputFloor.Tiles.GetLength(1));
+
+        return inputFloor;
+    }
+
+    public void MoveToTile(int inputHeight, int inputWidth)
+    {
+        int direction = Random.Shared.Next(4);
+        switch (direction)
         {
-            inputFloor.Tiles[inputWidth, inputHeight].Type = TileType.Floor;
-            switch (directionInput)
+            case 0:
+                --inputHeight;
+                break;
+            case 1:
+                ++inputHeight;
+                break;
+            case 2:
+                --inputWidth;
+                break;
+            case 3:
+                ++inputWidth;
+                break;
+        }
+
+        return;
+    }
+
+    public bool DetectVisitedTile(Tile inputTile)
+    {
+        bool tileVisited = inputTile.Type == TileType.Floor;
+        return tileVisited;
+    }
+    
+    public void SetTileToFloor(Tile inputTile)
+    {
+        inputTile.Type = TileType.Floor;
+    }
+
+    public void InitializeMaze(Floor mazeFloor, int mazeWidth, int mazeHeight)
+    {
+        for (int i = 0; i < mazeWidth; i++)
+        {
+            for (int j = 0; j < mazeHeight; j++)
             {
-                //up
-                case 0:
-                    inputHeight--;
-                    GenerateFloorHallway(inputFloor, inputWidth, inputHeight);
-                    break;
-                //down
-                case 1:
-                    inputHeight++;
-                    GenerateFloorHallway(inputFloor, inputWidth, inputHeight);
-                    break;
-                //left
-                case 2:
-                    inputWidth--;
-                    GenerateFloorHallway(inputFloor, inputWidth, inputHeight);
-                    break;
-                //right
-                case 3:
-                    inputWidth++;
-                    GenerateFloorHallway(inputFloor, inputWidth, inputHeight);
-                    break;
+                if (mazeFloor.Tiles[i, j].Type == TileType.Empty)
+                {
+                    mazeFloor.Tiles[i, j].Type = TileType.Wall;
+                }
             }
         }
-        
-        return inputFloor;
     }
 }

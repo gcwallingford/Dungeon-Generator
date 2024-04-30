@@ -17,7 +17,7 @@ public class BuildingGenerator
         for (int i = 0; i < numberOfRooms; i++)
         {
             building.Floors[0] = building.MakeRoomInFloor(building.Floors[0], randomHeight, randomWidth, randomColumn, randomRow);
-            building.Floors[0] = building.GenerateFloorHallway(building.Floors[0], 10, 10);
+            building.Floors[0] = building.GenerateFloorMaze(building.Floors[0], 10, 10);
         }
         
     }
