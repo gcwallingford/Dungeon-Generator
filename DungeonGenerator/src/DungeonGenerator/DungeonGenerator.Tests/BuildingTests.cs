@@ -71,7 +71,7 @@ public class BuildingTests
         var wallTile3 = currentFloor.Tiles[0, 1];
         var floorTile2 = currentFloor.Tiles[2, 1];
 
-        buildingGenerator.building.GenerateFloorHallway(currentFloor, 1, 1);
+        buildingGenerator.building.GenerateFloorMaze(currentFloor);
         
         Assert.Equal(wallTile.Type,TileType.Wall);
         Assert.Equal(floorTile.Type, TileType.Floor);

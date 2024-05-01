@@ -12,12 +12,12 @@ public class BuildingGenerator
         int randomColumn = Random.Shared.Next(1, 19 - randomWidth);
         int randomRow = Random.Shared.Next(1, 19 - randomHeight);
         
-        building = CreateBaseDungeon(1);
+        building = CreateBaseDungeon(2);
 
         for (int i = 0; i < numberOfRooms; i++)
         {
             building.Floors[0] = building.MakeRoomInFloor(building.Floors[0], randomHeight, randomWidth, randomColumn, randomRow);
-            building.Floors[0] = building.GenerateFloorMaze(building.Floors[0], 10, 10);
+            building.Floors[0] = building.GenerateFloorMaze(building.Floors[0]);
         }
         
     }

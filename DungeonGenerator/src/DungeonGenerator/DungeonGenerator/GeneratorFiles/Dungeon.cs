@@ -81,35 +81,76 @@ public class Dungeon(int numberOfFloors)
         return inputFloor;
     }
     
-    public Floor GenerateFloorMaze(Floor inputFloor, int inputWidth, int inputHeight)
+    public Floor GenerateFloorMaze(Floor inputFloor)
     {
-        InitializeMaze(inputFloor, inputWidth, inputHeight);
-        int X = Random.Shared.Next(inputFloor.Tiles.GetLength(0));
-        int Y = Random.Shared.Next(inputFloor.Tiles.GetLength(1));
+        int x = Random.Shared.Next(inputFloor.Tiles.GetLength(0));
+        int y = Random.Shared.Next(inputFloor.Tiles.GetLength(0));
 
+        
+        InitializeMaze(inputFloor);
+        
+        for (int i = 0; i < 200; i++)
+        {
+            bool tileVisited = DetectVisitedTile(inputFloor.Tiles[y, x]);
+            if (tileVisited == false)
+            { 
+                SetTileToFloor(inputFloor.Tiles[y, x]);
+                Tuple<int, int> nextTileDirection  = MoveToNextTile(y, x);
+                y = nextTileDirection.Item1;
+                x = nextTileDirection.Item2;
+            }
+        }
         return inputFloor;
     }
 
-    public void MoveToTile(int inputHeight, int inputWidth)
+    public Tuple<int, int> MoveToNextTile(int inputHeight, int inputWidth)
     {
         int direction = Random.Shared.Next(4);
         switch (direction)
         {
             case 0:
-                --inputHeight;
+                if (inputHeight > 0)
+                {
+                    --inputHeight;
+                }
+                else
+                {
+                    MoveToNextTile(inputHeight, inputWidth);
+                }
                 break;
             case 1:
-                ++inputHeight;
+                if (inputHeight < 19)
+                {
+                    ++inputHeight;
+                }
+                else
+                {
+                    MoveToNextTile(inputHeight, inputWidth);
+                }
                 break;
             case 2:
-                --inputWidth;
+                if (inputWidth > 0)
+                {
+                    --inputWidth;
+                }
+                else
+                {
+                    MoveToNextTile(inputHeight, inputWidth);
+                }
                 break;
             case 3:
-                ++inputWidth;
+                if (inputWidth < 19)
+                {
+                    ++inputWidth;
+                }
+                else
+                {
+                    MoveToNextTile(inputHeight, inputWidth);
+                }
                 break;
         }
 
-        return;
+        return new Tuple<int, int>(inputHeight, inputWidth);
     }
 
     public bool DetectVisitedTile(Tile inputTile)
@@ -123,11 +164,11 @@ public class Dungeon(int numberOfFloors)
         inputTile.Type = TileType.Floor;
     }
 
-    public void InitializeMaze(Floor mazeFloor, int mazeWidth, int mazeHeight)
+    public void InitializeMaze(Floor mazeFloor)
     {
-        for (int i = 0; i < mazeWidth; i++)
+        for (int i = 0; i < mazeFloor.Tiles.GetLength(0); i++)
         {
-            for (int j = 0; j < mazeHeight; j++)
+            for (int j = 0; j < mazeFloor.Tiles.GetLength(1); j++)
             {
                 if (mazeFloor.Tiles[i, j].Type == TileType.Empty)
                 {

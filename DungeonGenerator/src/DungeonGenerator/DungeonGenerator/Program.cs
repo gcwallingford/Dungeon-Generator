@@ -61,7 +61,7 @@ app.MapGet("/hallwayendpoint", () =>
     
     using (var bitmap = new SKBitmap(20, 20))
     {
-        buildingGen.building.GenerateFloorHallway(buildingGen.building.Floors[0], 10, 10);
+        buildingGen.building.GenerateFloorMaze(buildingGen.building.Floors[0]);
         for (int row = 0; row < numberOfRows; row++)
         {
             for (int column = 0; column < numberOfColumns; column++)
@@ -85,7 +85,7 @@ app.MapGet("/hallwayendpoint", () =>
 
 app.MapGet("/BuildingGenerator", () =>
 {
-    var generatedBuilding = new BuildingGenerator(2);
+    var generatedBuilding = new BuildingGenerator(1);
     using (var bitmap = new SKBitmap(20, 20))
     {
         int numberOfRows = generatedBuilding.building.Floors[0].Tiles.GetLength(0);
