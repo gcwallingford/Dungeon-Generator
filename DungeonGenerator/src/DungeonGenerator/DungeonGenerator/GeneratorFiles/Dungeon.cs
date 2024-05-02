@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.DataProtection.KeyManagement.Internal;
+
 namespace DungeonGenerator.GeneratorFiles;
 
 public class Dungeon(int numberOfFloors)
@@ -14,7 +16,7 @@ public class Dungeon(int numberOfFloors)
             _floors[i] = floor;
         }
     }
-    
+
     public void InitializeRoom(Tile[,] inputArray)
     {
         var numRows = inputArray.GetLength(0);
@@ -39,25 +41,26 @@ public class Dungeon(int numberOfFloors)
         }
     }
 
-    public Floor MakeRoomInFloor(Floor inputFloor, int roomHeight, int roomWidth, int startingFloorColumn, int startingFloorRow)
+    public Floor MakeRoomInFloor(Floor inputFloor, int roomHeight, int roomWidth, int startingFloorColumn,
+        int startingFloorRow)
     {
-        if (inputFloor.Tiles[startingFloorRow,startingFloorColumn].Type == TileType.Wall
-            || inputFloor.Tiles[startingFloorRow,startingFloorColumn].Type == TileType.Floor
-            || inputFloor.Tiles[startingFloorRow + roomHeight,startingFloorColumn + roomWidth].Type == TileType.Wall 
-            || inputFloor.Tiles[startingFloorRow + roomHeight,startingFloorColumn + roomWidth].Type == TileType.Floor)
+        if (inputFloor.Tiles[startingFloorRow, startingFloorColumn].Type == TileType.Wall
+            || inputFloor.Tiles[startingFloorRow, startingFloorColumn].Type == TileType.Floor
+            || inputFloor.Tiles[startingFloorRow + roomHeight, startingFloorColumn + roomWidth].Type == TileType.Wall
+            || inputFloor.Tiles[startingFloorRow + roomHeight, startingFloorColumn + roomWidth].Type == TileType.Floor)
         {
             int randomHeight = Random.Shared.Next(1, 6);
             int randomWidth = Random.Shared.Next(1, 6);
             int randomColumn = Random.Shared.Next(1, 19 - randomHeight);
             int randomRow = Random.Shared.Next(1, 19 - randomWidth);
-            
+
             MakeRoomInFloor(inputFloor, randomHeight, randomWidth, randomColumn, randomRow);
         }
         else
         {
             for (int column = startingFloorColumn; column < (startingFloorColumn + roomWidth); column++)
             {
-            
+
                 for (int row = startingFloorRow; row < (startingFloorRow + roomHeight); row++)
                 {
                     if (column == startingFloorColumn || column == startingFloorColumn + roomWidth - 1)
@@ -78,28 +81,18 @@ public class Dungeon(int numberOfFloors)
                 }
             }
         }
+
         return inputFloor;
     }
-    
+
     public Floor GenerateFloorMaze(Floor inputFloor)
     {
-        int x = Random.Shared.Next(inputFloor.Tiles.GetLength(0));
-        int y = Random.Shared.Next(inputFloor.Tiles.GetLength(0));
+        int x = 10;
+        int y = 10;
 
-        
         InitializeMaze(inputFloor);
+        MazeBuilderLoop(inputFloor, x, y);
         
-        for (int i = 0; i < 200; i++)
-        {
-            bool tileVisited = DetectVisitedTile(inputFloor.Tiles[y, x]);
-            if (tileVisited == false)
-            { 
-                SetTileToFloor(inputFloor.Tiles[y, x]);
-                Tuple<int, int> nextTileDirection  = MoveToNextTile(y, x);
-                y = nextTileDirection.Item1;
-                x = nextTileDirection.Item2;
-            }
-        }
         return inputFloor;
     }
 
@@ -115,8 +108,9 @@ public class Dungeon(int numberOfFloors)
                 }
                 else
                 {
-                    MoveToNextTile(inputHeight, inputWidth);
+                    inputHeight = 0;
                 }
+
                 break;
             case 1:
                 if (inputHeight < 19)
@@ -125,8 +119,9 @@ public class Dungeon(int numberOfFloors)
                 }
                 else
                 {
-                    MoveToNextTile(inputHeight, inputWidth);
+                    inputHeight = 19;
                 }
+
                 break;
             case 2:
                 if (inputWidth > 0)
@@ -135,8 +130,9 @@ public class Dungeon(int numberOfFloors)
                 }
                 else
                 {
-                    MoveToNextTile(inputHeight, inputWidth);
+                    inputWidth = 0;
                 }
+
                 break;
             case 3:
                 if (inputWidth < 19)
@@ -145,8 +141,9 @@ public class Dungeon(int numberOfFloors)
                 }
                 else
                 {
-                    MoveToNextTile(inputHeight, inputWidth);
+                    inputWidth = 19;
                 }
+
                 break;
         }
 
@@ -155,10 +152,18 @@ public class Dungeon(int numberOfFloors)
 
     public bool DetectVisitedTile(Tile inputTile)
     {
-        bool tileVisited = inputTile.Type == TileType.Floor;
+        bool tileVisited;
+        if (inputTile.Type == TileType.Floor)
+        {
+            tileVisited = true;
+        }
+        else
+        {
+            tileVisited = false;
+        }
         return tileVisited;
     }
-    
+
     public void SetTileToFloor(Tile inputTile)
     {
         inputTile.Type = TileType.Floor;
@@ -176,5 +181,37 @@ public class Dungeon(int numberOfFloors)
                 }
             }
         }
+    }
+
+    public void MazeBuilderLoop(Floor inputFloor, int x, int y)
+    {
+        inputFloor.Tiles[y, x].Type = TileType.Floor;
+        for (int i = 0; i < 69; i++)
+        {
+            (int x, int y) tileCoords  = MazeBuilder(inputFloor, x, y);
+            x = tileCoords.x;
+            y = tileCoords.y;
+        }
+    }
+
+    public (int x, int y) MazeBuilder(Floor inputFloor, int x, int y)
+    {
+        Tuple<int, int> nextTile = MoveToNextTile(y, x);
+        y = nextTile.Item1;
+        x = nextTile.Item2;
+        var inputTile = inputFloor.Tiles[y, x];
+        var inputTileType = inputTile.Type;//debug variable,serves no purpose outside of debug visuals
+        bool tileVisited = DetectVisitedTile(inputTile);
+            
+        if (tileVisited == false)
+        {
+            SetTileToFloor(inputFloor.Tiles[y,x]);
+        }
+        else
+        {
+            (x, y) = MazeBuilder(inputFloor, x, y);
+        }
+
+        return (x, y);
     }
 }

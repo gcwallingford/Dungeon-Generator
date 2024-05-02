@@ -7,8 +7,8 @@ public class BuildingGenerator
     public Dungeon building { get; }
     public BuildingGenerator(int numberOfRooms)
     {
-        int randomHeight = Random.Shared.Next(3, 6);
-        int randomWidth = Random.Shared.Next(3, 6);
+        int randomHeight = Random.Shared.Next(4, 6);
+        int randomWidth = Random.Shared.Next(4, 6);
         int randomColumn = Random.Shared.Next(1, 19 - randomWidth);
         int randomRow = Random.Shared.Next(1, 19 - randomHeight);
         
