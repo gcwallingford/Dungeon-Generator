@@ -1,4 +1,4 @@
-namespace DungeonGenerator;
+namespace DungeonGenerator.GeneratorFiles;
 
 public class Tile(TileType tileType = TileType.Empty)
 {

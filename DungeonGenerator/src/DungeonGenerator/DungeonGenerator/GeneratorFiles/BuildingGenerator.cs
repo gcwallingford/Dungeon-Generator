@@ -1,8 +1,12 @@
+<<<<<<< Updated upstream
 namespace DungeonGenerator;
+=======
+namespace DungeonGenerator.GeneratorFiles;
+>>>>>>> Stashed changes
 
 public class BuildingGenerator
 {
-    public Dungeon building { get; }
+    public Dungeon Building { get; }
     public BuildingGenerator(int numberOfRooms)
     {
         int randomHeight = Random.Shared.Next(1, 6);
@@ -10,11 +14,20 @@ public class BuildingGenerator
         int randomColumn = Random.Shared.Next(1, 19);
         int randomRow = Random.Shared.Next(1, 19);
         
+<<<<<<< Updated upstream
         building = CreateBaseDungeon(1);
 
         for (int i = 0; i < numberOfRooms; i++)
         {
             building.MakeRoomInFloor(building.Floors[0], randomHeight, randomWidth, randomColumn, randomRow);
+=======
+        Building = CreateBaseDungeon(2);
+
+        for (int i = 0; i < numberOfRooms; i++)
+        {
+            Building.Floors[0] = Building.MakeRoomInFloor(Building.Floors[0], randomHeight, randomWidth, randomColumn, randomRow);
+            Building.Floors[0] = Building.GenerateFloorMaze(Building.Floors[0]);
+>>>>>>> Stashed changes
         }
         
     }
@@ -23,10 +36,6 @@ public class BuildingGenerator
     {
         Dungeon building = new Dungeon(numberOfFloors);
         building.InitializeFloors();
-        var currentFloor = building.Floors[0];
-
-        var rows = currentFloor.Tiles.GetLength(0);
-        var columns = currentFloor.Tiles.GetLength(1);
 
         return building;
     }

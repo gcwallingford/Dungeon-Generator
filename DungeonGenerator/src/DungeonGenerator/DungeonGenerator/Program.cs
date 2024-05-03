@@ -1,9 +1,6 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Hosting;
-using System.IO;
+
 using DungeonGenerator;
+using DungeonGenerator.GeneratorFiles;
 using SkiaSharp;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,14 +25,11 @@ app.MapGet("/health", () => "Hello!" );
 
 app.MapGet("/generate", () =>
 {
-    using (var bitmap = new SKBitmap(50, 50))
+    var bitmap = new SKBitmap(50, 50);
+    using (var canvas = new SKCanvas(bitmap))
     {
-        using (var canvas = new SKCanvas(bitmap))
-        {
-            canvas.Clear(SKColors.White);
-            return bitmap;
-        }
-        
+        canvas.Clear(SKColors.White);
+        return bitmap;
     }
 });
 
@@ -52,6 +46,73 @@ app.MapGet("/greendots", () =>
 
 });
 
+<<<<<<< Updated upstream
+=======
+app.MapGet("/hallwayendpoint", () =>
+{
+    var buildingGen = new BuildingGenerator(2);
+    
+    int numberOfRows = buildingGen.Building.Floors[0].Tiles.GetLength(0);
+    int numberOfColumns = buildingGen.Building.Floors[0].Tiles.GetLength(1);
+    
+    using (var bitmap = new SKBitmap(20, 20))
+    {
+        buildingGen.Building.GenerateFloorMaze(buildingGen.Building.Floors[0]);
+        for (int row = 0; row < numberOfRows; row++)
+        {
+            for (int column = 0; column < numberOfColumns; column++)
+            {
+                if (buildingGen.Building.Floors[0].Tiles[row, column].Type == TileType.Floor)
+                {
+                    bitmap.SetPixel(row, column, SKColors.Sienna);
+                }
+                else if (buildingGen.Building.Floors[0].Tiles[row, column].Type == TileType.Wall)
+                {
+                    bitmap.SetPixel(row, column, SKColors.Gray);
+                }
+                else
+                {
+                    bitmap.SetPixel(row, column, SKColors.Black);
+                }
+            }
+        }
+    }
+});
+
+app.MapGet("/BuildingGenerator", () =>
+{
+    var generatedBuilding = new BuildingGenerator(1);
+    using (var bitmap = new SKBitmap(20, 20))
+    {
+        int numberOfRows = generatedBuilding.Building.Floors[0].Tiles.GetLength(0);
+        int numberOfColumns = generatedBuilding.Building.Floors[0].Tiles.GetLength(1);
+
+        for (int row = 0; row < numberOfRows; row++)
+        {
+            for (int column = 0; column < numberOfColumns; column++)
+            {
+                if (generatedBuilding.Building.Floors[0].Tiles[row, column].Type == TileType.Floor)
+                {
+                    bitmap.SetPixel(row, column, SKColors.Sienna);
+                }
+                else if (generatedBuilding.Building.Floors[0].Tiles[row, column].Type == TileType.Wall)
+                {
+                    bitmap.SetPixel(row, column, SKColors.Gray);
+                }
+                else
+                {
+                    bitmap.SetPixel(row, column, SKColors.Black);
+                }
+            }
+        }
+
+        var data = SKImage.FromBitmap(bitmap).Encode(SKEncodedImageFormat.Png, 100);
+        var imageBytes = data.ToArray();
+        return Results.Bytes(imageBytes, "image/png", "image.png");
+    }
+});
+
+>>>>>>> Stashed changes
 app.MapGet("/CaveGenerator", () =>  
 {
     //Creating generator object
@@ -86,7 +147,7 @@ app.MapGet("/CaveGenerator", () =>
     
 });                                                                
 
-app.MapGet("/example", (HttpContext context) =>
+app.MapGet("/example", () =>
 {
     string imagePath =
         "/Users/guywallingford/Documents/GitHub/Dungeon-Generator/DungeonGenerator/src/DungeonGenerator/Shark.jpeg";

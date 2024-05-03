@@ -31,7 +31,7 @@ public class BuildingTests
         var wallTile = currentFloor.Tiles[0, 0];
         var floorTile = currentFloor.Tiles[1, 1];
 
-        generator.building.InitializeRoom(currentFloor.Tiles);
+        generator.Building.InitializeRoom(currentFloor.Tiles);
         
         Assert.Equal(TileType.Wall, wallTile.Type);
         Assert.Equal(TileType.Floor,  floorTile.Type);
@@ -47,7 +47,7 @@ public class BuildingTests
         var wallTile2 = currentFloor.Tiles[4, 4];
         var floorTile = currentFloor.Tiles[3, 3];
 
-        generator.building.MakeRoomInFloor(currentFloor, 3, 3, 2, 2);
+        generator.Building.MakeRoomInFloor(currentFloor, 3, 3, 2, 2);
 
         _testOutputHelper.WriteLine(currentFloor.Tiles[2, 2].Type + ", " + currentFloor.Tiles[2, 3].Type + ", " + currentFloor.Tiles[2, 4].Type);
         _testOutputHelper.WriteLine(currentFloor.Tiles[3, 2].Type + ", " + currentFloor.Tiles[3, 3].Type + ", " + currentFloor.Tiles[3, 4].Type);
@@ -57,4 +57,8 @@ public class BuildingTests
         Assert.Equal(TileType.Wall, wallTile2.Type);
         Assert.Equal(TileType.Floor, floorTile.Type);
     }
+<<<<<<< Updated upstream
+=======
+    
+>>>>>>> Stashed changes
 }

@@ -1,6 +1,10 @@
+<<<<<<< Updated upstream
 using System.Drawing;
 
 namespace DungeonGenerator;
+=======
+namespace DungeonGenerator.GeneratorFiles;
+>>>>>>> Stashed changes
 
 public class Dungeon(int numberOfFloors)
 {
@@ -80,4 +84,154 @@ public class Dungeon(int numberOfFloors)
 
         return inputFloor;
     }
+<<<<<<< Updated upstream
 }
+=======
+
+    public Tuple<int, int> MoveToNextTile(Floor inputFloor ,int inputHeight, int inputWidth, Direction direction)
+    {
+        switch (direction)
+        {
+            case Direction.Up:
+                if (inputHeight > 1)
+                {
+                    --inputHeight;
+                    SetTileToFloor(inputFloor.Tiles[inputHeight, inputWidth]);
+                    --inputHeight;
+                }
+                else
+                {
+                    inputHeight = 1;
+                }
+
+                break;
+            case Direction.Down:
+                if (inputHeight < 18)
+                {
+                    ++inputHeight;
+                    SetTileToFloor(inputFloor.Tiles[inputHeight, inputWidth]);
+                    ++inputHeight;
+                }
+                else
+                {
+                    inputHeight = 18;
+                }
+
+                break;
+            case Direction.Left:
+                if (inputWidth > 1)
+                {
+                    --inputWidth;
+                    SetTileToFloor(inputFloor.Tiles[inputHeight, inputWidth]);
+                    --inputWidth;
+                }
+                else
+                {
+                    inputWidth = 1;
+                }
+
+                break;
+            case Direction.Right:
+                if (inputWidth < 18)
+                {
+                    ++inputWidth;
+                    SetTileToFloor(inputFloor.Tiles[inputHeight, inputWidth]);
+                    ++inputWidth;
+                }
+                else
+                {
+                    inputWidth = 18;
+                }
+
+                break;
+        }
+
+        return new Tuple<int, int>(inputHeight, inputWidth);
+    }
+
+    public bool DetectVisitedTile(Tile inputTile)
+    {
+        bool tileVisited;
+        if (inputTile.Type == TileType.Floor)
+        {
+            tileVisited = true;
+        }
+        else
+        {
+            tileVisited = false;
+        }
+        return tileVisited;
+    }
+
+    public void SetTileToFloor(Tile inputTile)
+    {
+        inputTile.Type = TileType.Floor;
+    }
+
+    public void InitializeMaze(Floor mazeFloor)
+    {
+        for (int i = 0; i < mazeFloor.Tiles.GetLength(0); i++)
+        {
+            for (int j = 0; j < mazeFloor.Tiles.GetLength(1); j++)
+            {
+                if (mazeFloor.Tiles[i, j].Type == TileType.Empty)
+                {
+                    mazeFloor.Tiles[i, j].Type = TileType.Wall;
+                }
+            }
+        }
+    }
+
+    public void MazeBuilderLoop(Floor inputFloor, int x, int y)
+    {
+        inputFloor.Tiles[y, x].Type = TileType.Floor;
+        for (int i = 0; i < 20; i++)
+        {
+            (int x, int y) tileCoords  = MazeBuilder(inputFloor, x, y);
+            x = tileCoords.x;
+            y = tileCoords.y;
+        }
+    }
+
+    public (int x, int y) MazeBuilder(Floor inputFloor, int x, int y)
+    {
+        int intDirection = Random.Shared.Next(4);
+        (y,x) = MoveToNextTile(inputFloor,y, x, IntToDirections(intDirection));
+        var inputTile = inputFloor.Tiles[y, x];
+        bool tileVisited = DetectVisitedTile(inputTile);
+            
+        if (tileVisited == false)
+        {
+            SetTileToFloor(inputFloor.Tiles[y,x]);
+        }
+        else
+        {
+            (x, y) = MazeBuilder(inputFloor, x, y);
+        }
+
+        return (x, y);
+    }
+
+    public Direction IntToDirections(int intDirection)
+    {
+        Direction direction = Direction.Up;
+        switch (intDirection)
+        {
+            case 0:
+                direction = Direction.Up;
+                break;
+            case 1:
+                direction = Direction.Down;
+                break;
+            case 2:
+                direction = Direction.Left;
+                break;
+            case 3:
+                direction = Direction.Right;
+                break;
+        }
+
+        return direction;
+    }
+}
+>>>>>>> Stashed changes

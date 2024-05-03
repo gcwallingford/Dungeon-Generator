@@ -1,9 +1,7 @@
-namespace DungeonGenerator;
+namespace DungeonGenerator.GeneratorFiles;
 
 public class Floor(int height, int width)
 {
-    private int _height = height;
-    private int _width = width;
     private Tile[,] _floorTiles = new Tile[height, width];
     public Tile[,] Tiles => _floorTiles;
 

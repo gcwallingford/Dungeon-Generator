@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 namespace DungeonGenerator;
+=======
+namespace DungeonGenerator.GeneratorFiles;
+>>>>>>> Stashed changes
 
 public class CaveGenerator
 {
@@ -42,14 +46,13 @@ public class CaveGenerator
         return (x, y);
     }
 
-    private Floor SetTileToFloor(Floor currentFloor, int x, int y)
+    private void SetTileToFloor(Floor currentFloor, int x, int y)
     {
         //converting empty to floor tile
         if (currentFloor.Tiles[y, x].Type != TileType.Floor)
         {
             currentFloor.Tiles[y, x].Type = TileType.Floor;
         }
-        return currentFloor;
     }
 
     private int RandomDirection()
