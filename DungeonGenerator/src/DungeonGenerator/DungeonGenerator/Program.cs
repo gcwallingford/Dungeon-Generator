@@ -1,5 +1,4 @@
 
-using DungeonGenerator;
 using DungeonGenerator.GeneratorFiles;
 using SkiaSharp;
 
@@ -46,8 +45,6 @@ app.MapGet("/greendots", () =>
 
 });
 
-<<<<<<< Updated upstream
-=======
 app.MapGet("/hallwayendpoint", () =>
 {
     var buildingGen = new BuildingGenerator(2);
@@ -112,7 +109,6 @@ app.MapGet("/BuildingGenerator", () =>
     }
 });
 
->>>>>>> Stashed changes
 app.MapGet("/CaveGenerator", () =>  
 {
     //Creating generator object

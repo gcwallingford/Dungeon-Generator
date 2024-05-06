@@ -1,3 +1,4 @@
+using DungeonGenerator.GeneratorFiles;
 using Xunit.Abstractions;
 
 namespace DungeonGenerator.Tests;
@@ -25,7 +26,7 @@ public class BuildingTests
     [Fact]
     public void TestInitializeRoom()
     {
-        BuildingGenerator generator = new BuildingGenerator();
+        BuildingGenerator generator = new BuildingGenerator(1);
         var currentFloor = new Floor(20, 20);
         currentFloor.SetEmptyTiles();
         var wallTile = currentFloor.Tiles[0, 0];
@@ -57,8 +58,5 @@ public class BuildingTests
         Assert.Equal(TileType.Wall, wallTile2.Type);
         Assert.Equal(TileType.Floor, floorTile.Type);
     }
-<<<<<<< Updated upstream
-=======
     
->>>>>>> Stashed changes
 }

@@ -1,10 +1,4 @@
-<<<<<<< Updated upstream
-using System.Drawing;
-
-namespace DungeonGenerator;
-=======
 namespace DungeonGenerator.GeneratorFiles;
->>>>>>> Stashed changes
 
 public class Dungeon(int numberOfFloors)
 {
@@ -21,6 +15,16 @@ public class Dungeon(int numberOfFloors)
         }
     }
     
+    public Floor GenerateFloorMaze(Floor inputFloor)
+    {
+        int x = 10;
+        int y = 10;
+
+        InitializeMaze(inputFloor);
+        MazeBuilderLoop(inputFloor, x, y);
+        
+        return inputFloor;
+    }
     public void InitializeRoom(Tile[,] inputArray)
     {
         var numRows = inputArray.GetLength(0);
@@ -84,10 +88,6 @@ public class Dungeon(int numberOfFloors)
 
         return inputFloor;
     }
-<<<<<<< Updated upstream
-}
-=======
-
     public Tuple<int, int> MoveToNextTile(Floor inputFloor ,int inputHeight, int inputWidth, Direction direction)
     {
         switch (direction)
@@ -234,4 +234,3 @@ public class Dungeon(int numberOfFloors)
         return direction;
     }
 }
->>>>>>> Stashed changes

@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
-namespace DungeonGenerator;
-=======
 namespace DungeonGenerator.GeneratorFiles;
->>>>>>> Stashed changes
 
 public class CaveGenerator
 {
